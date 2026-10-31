@@ -1,0 +1,22 @@
+
+# Android / Gradle
+.gradle/
+**/build/
+local.properties
+.cxx/
+captures/
+
+# Android Studio / macOS
+.idea/
+*.iml
+.DS_Store
+
+# Signing keys and certificates
+*.jks
+*.keystore
+*.pem
+*.key
+
+# Build artifacts
+*.apk
+*.aab
