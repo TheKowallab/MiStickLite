@@ -1,0 +1,13 @@
+MiStick Lite uses Kotlin standard library 1.9.25 at runtime.
+Copyright JetBrains s.r.o. and Kotlin Programming Language contributors.
+License: Apache License 2.0. See licenses/Kotlin-Apache-2.0.txt.
+Source: https://github.com/JetBrains/kotlin/tree/v1.9.25
+
+The source project includes the official Gradle 8.7 Wrapper.
+Copyright Gradle, Inc. and Gradle contributors. License: Apache License 2.0.
+The Apache License 2.0 text is provided in licenses/Kotlin-Apache-2.0.txt.
+Source: https://github.com/gradle/gradle/tree/v8.7.0
+
+JUnit, Robolectric and their dependencies are used only for local tests and are
+not included in the APK. Android SDK, AGP, JDK and Gradle distributions are local
+build tools and are not redistributed in the project archive.
