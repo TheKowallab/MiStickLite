@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MiStick Lite — lekki launcher Android TV dla Xiaomi Mi TV Stick.">
+  <title>MiStick Lite — Android TV Launcher</title>
+  <style>
+    :root {
+      --bg: #121A2B;
+      --card: #1C263A;
+      --cream: #F3E8CE;
+      --muted: #AEB9C9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--cream);
+      font: 16px/1.7 system-ui, sans-serif;
+    }
+    main { max-width: 960px; margin: auto; padding: 36px 24px 90px; }
+    nav { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    a { color: var(--cream); }
+    .brand { font-weight: 800; font-size: 20px; text-decoration: none; }
+    .hero { text-align: center; padding: 90px 0 55px; }
+    h1 { font-size: clamp(46px, 9vw, 80px); line-height: 1.1; margin: 0; }
+    h2 { font-size: 28px; margin-top: 60px; }
+    .lead { color: var(--muted); font-size: 20px; max-width: 680px; margin: 24px auto; }
+    .button {
+      display: inline-block; padding: 12px 24px; margin: 8px;
+      border: 1px solid var(--cream); border-radius: 12px;
+      text-decoration: none; font-weight: 700;
+    }
+    .button.primary { background: var(--cream); color: var(--bg); }
+    .preview {
+      margin: 24px 0 55px; padding: 35px;
+      background: #0D1524; border: 1px solid #34435E; border-radius: 20px;
+    }
+    .preview-top { display: flex; justify-content: space-between; align-items: start; }
+    .clock { font-size: 52px; font-weight: 300; }
+    .dots { font-size: 32px; letter-spacing: 5px; }
+    .tiles { display: flex; gap: 12px; overflow: hidden; margin-top: 44px; }
+    .tile {
+      min-width: 145px; padding: 24px 12px; text-align: center;
+      border-radius: 12px; background: #26334A; white-space: nowrap;
+    }
+    .tile:first-child { outline: 3px solid var(--cream); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+    .card { padding: 22px; border-radius: 16px; background: var(--card); }
+    .card h3 { margin-top: 0; }
+    p, li { color: var(--muted); }
+    code { color: var(--cream); overflow-wrap: anywhere; }
+    pre { overflow-x: auto; background: #0B1220; padding: 18px; border-radius: 12px; }
+    .warning { border-left: 3px solid var(--cream); padding-left: 18px; }
+    footer { margin-top: 70px; border-top: 1px solid #34435E; padding-top: 24px; }
+    @media (max-width: 600px) { .tile { min-width: 125px; } .preview { padding: 20px; } }
+  </style>
+</head>
+<body>
+<main>
+  <nav>
+    <a class="brand" href="./">MiStick Lite</a>
+    <a href="https://github.com/TheKowallab/MiStickLite">GitHub</a>
+  </nav>
+
+  <header class="hero">
+    <h1>MiStick Lite</h1>
+    <p class="lead">Minimalistyczny i lekki launcher dla Android TV.
+      Tylko zegar, aplikacje i prosta obsługa pilotem.</p>
+    <a class="button primary" href="https://github.com/TheKowallab/MiStickLite/releases">Wydania APK</a>
+    <a class="button" href="https://github.com/TheKowallab/MiStickLite">Kod źródłowy</a>
+  </header>
+
+  <section class="preview" aria-label="Schemat wyglądu pulpitu">
+    <div class="preview-top">
+      <span class="clock">12:45</span>
+      <span class="dots">•••</span>
+    </div>
+    <div class="tiles">
+      <div class="tile">Netflix</div>
+      <div class="tile">Prime Video</div>
+      <div class="tile">YouTube</div>
+      <div class="tile">Apple TV</div>
+    </div>
+  </section>
+
+  <h2>Dlaczego MiStick Lite?</h2>
+  <section class="grid">
+    <div class="card"><h3>Minimalizm</h3><p>Jeden rząd aplikacji, zegar i trzy pozycje menu. Bez rekomendacji i reklam w launcherze.</p></div>
+    <div class="card"><h3>Obsługa pilotem</h3><p>Nawigacja przyciskami kierunkowymi, OK i Wstecz. Zmiana kolejności oraz ukrywanie aplikacji.</p></div>
+    <div class="card"><h3>Małe wymagania</h3><p>Natywny Kotlin i Android Views, bez Compose oraz rozbudowanych bibliotek interfejsu.</p></div>
+    <div class="card"><h3>Automatyczne wykrywanie</h3><p>Nowo zainstalowane aplikacje pojawiają się w rzędzie bez ręcznego dodawania.</p></div>
+  </section>
+
+  <h2>Instalacja</h2>
+  <p>Projekt testowano na Xiaomi Mi TV Stick Full HD, model MiTV-AESP0,
+    Android TV 9, firmware PI.2055. Wymagane jest ADB.</p>
+  <pre><code>adb connect ADRES_IP_STICKA:5555
+adb install -r MiStickLite.apk
+adb shell am start -n pl.misticklite/.MainActivity</code></pre>
+  <p>Zastąp nazwę APK rzeczywistą nazwą pobranego pliku.
+    Samo zainstalowanie aplikacji nie ustawia jej jako domyślnego ekranu Home.</p>
+
+  <h2>Konfiguracja i bezpieczeństwo</h2>
+  <p class="warning">Wyłączanie systemowego launchera lub komponentów
+    konfiguracji Android TV jest operacją zaawansowaną. Może wpłynąć na
+    działanie urządzenia i możliwość przywrócenia ustawień. Nie wykonuj
+    takich zmian bez sprawnego połączenia ADB i przygotowanej procedury
+    przywracania oryginalnego launchera.</p>
+  <p>Szczegółowa dokumentacja i procedury diagnostyczne znajdują się w
+    <a href="https://github.com/TheKowallab/MiStickLite/blob/main/README.md">README projektu</a>.</p>
+
+  <footer>
+    <p>MiStick Lite 1.2.0 · Projekt niezależny, niepowiązany z producentami urządzeń ani usług streamingowych.</p>
+  </footer>
+</main>
+</body>
+</html>
