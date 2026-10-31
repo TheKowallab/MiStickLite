@@ -84,13 +84,43 @@ adb -s "$SERIAL" shell am start -W -n pl.misticklite/.MainActivity
 
 To uruchamia launcher jako osobną aplikację, dostępną także w fabrycznym menu TV. Samo zainstalowanie i uruchomienie **nie ustawia go jako domyślnego HOME**. Przetestuj DPAD, trzy pozycje menu, powrót z aplikacji, zmianę kolejności, ukrywanie i przywracanie, przed osobnym włączeniem przekierowania debug przez ADB.
 
-## Eksperymentalny Home i wyłączenie
 
-Ręczne włączenie usługi dostępności nie włącza przekierowania. Osobny debugowy receiver przez ADB obsługuje status/enable/disable/disable-service/close-launcher i potwierdza aktualny stan. Chroni go systemowe DUMP; nie istnieje w release. Nie dodano nowej pozycji menu.
+## Ustawienie MiStick Lite jako ekranu Home
 
-Przy ON konsumowana jest cała para HOME DOWN/UP i pulpit startuje tylko po krótkim UP. Powtórzenia nie otwierają go wielokrotnie; szybki podwójny Home jest scalany. Długi Home nie otwiera MiStick Lite, ale w tym trybie jego oryginalna akcja także nie jest zachowana. Pozostałe klawisze, w tym 284, są niezmienione. [Procedura i ograniczenia](HOME-REDIRECT-1.2.md).
+Sama instalacja APK nie zastępuje fabrycznego pulpitu. Najpierw uruchom MiStick Lite jako zwykłą aplikację i sprawdź działanie pilota oraz dostęp do ustawień.
 
-Nie zmieniaj domyślnego HOME ani pakietu Google. W awarii można przez ADB wyłączyć wyłącznie nasz komponent dostępności i zakończyć nasz proces; komendy zawiera procedura. Nie są wykonywane automatycznie.
+### Sprawdzona konfiguracja
+
+MiStick Lite 1.2.0 został przetestowany na:
+- Xiaomi Mi TV Stick Full HD (MiTV-AESP0)
+- Android TV 9
+- Firmware PI.2055
+
+Na tym urządzeniu MiStick Lite działał jako domyślny ekran Home po wyłączeniu fabrycznego pakietu `com.google.android.tvlauncher`.
+
+Podczas testów stwierdzono, że po restarcie system potrafił ponownie włączyć fabryczny launcher. Na testowanym egzemplarzu problem ustąpił po wyłączeniu `com.google.android.tungsten.setupwraith`.
+
+**Uwaga:** wyłączanie SetupWraith może wpływać na konfigurację Android TV, w tym obsługę sieci. To rozwiązanie specyficzne dla przetestowanego urządzenia i firmware. Nie należy stosować go automatycznie na innych telewizorach.
+
+Przed zmianami należy zapewnić działające ADB i przygotować procedurę przywracania systemu. Nie odinstalowuj pakietów systemowych.
+
+### Przywracanie fabrycznego launchera
+
+Jeżeli wcześniej wyłączono poniższe pakiety, można je ponownie włączyć przez ADB:
+
+```sh
+adb shell pm enable --user 0 com.google.android.tvlauncher
+adb shell pm enable --user 0 com.google.android.tungsten.setupwraith
+```
+
+Następnie uruchom ponownie urządzenie i sprawdź działanie fabrycznego ekranu Home.
+
+### Eksperymentalne przekierowanie przycisku Home
+
+Wersja 1.2.0 zawiera również opcjonalny mechanizm diagnostyczny HomeKeyDiagnosticService. Jest on domyślnie wyłączony i nie jest wymagany do działania MiStick Lite jako domyślnego launchera.
+
+Szczegóły:
+[HOME-REDIRECT-1.2.md](HOME-REDIRECT-1.2.md)
 
 ## Checklista testu na Mi Sticku (do wykonania przez właściciela)
 
