@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MiStick Lite</string>
+    <string name="account">Konto</string>
+    <string name="settings">Ustawienia</string>
+    <string name="store">Sklep z aplikacjami</string>
+    <string name="menu_description">Menu. Przytrzymaj OK, aby przywrócić ukryte aplikacje.</string>
+    <string name="empty">Brak widocznych aplikacji. Przytrzymaj OK na trzech kropkach, aby przywrócić ukryte.</string>
+    <string name="loading">Wczytywanie aplikacji…</string>
+    <string name="catalog_error">Nie udało się odczytać aplikacji. Wróć na pulpit, aby spróbować ponownie.</string>
+    <string name="app_unavailable">Aplikacja jest niedostępna. Odświeżam listę.</string>
+    <string name="screen_unavailable">Ten ekran jest niedostępny na tym urządzeniu.</string>
+    <string name="settings_fallback">Ekran konta jest niedostępny. Otwieram ustawienia systemowe.</string>
+    <string name="store_fallback">Google Play jest niedostępny. Otwieram ustawienia aplikacji.</string>
+    <string name="move">Zmień kolejność</string>
+    <string name="hide">Ukryj aplikację</string>
+    <string name="hidden_title">Ukryte aplikacje</string>
+    <string name="no_hidden">Nie ma ukrytych zainstalowanych aplikacji.</string>
+    <string name="move_hint">◀ ▶ przesuń • OK zapisz • Wstecz anuluj</string>
+    <string name="save_error">Nie udało się zapisać ustawień.</string>
+    <string name="app_description">%1$s. OK uruchamia, przytrzymanie OK otwiera opcje.</string>
+    <string name="home_diagnostics_name">MiStick Lite — diagnostyka Home</string>
+    <string name="home_diagnostics_description">Domyślnie diagnostyka HOME (3) i ALL_APPS (284), bez przechwytywania. W debug można osobno włączyć przez ADB eksperymentalne przekierowanie krótkiego HOME do MiStick Lite. Wtedy konsumowana jest cała para DOWN/UP; długi i podwójny Home nie zachowują fabrycznych akcji. Przekierowanie resetuje się do OFF po ponownym połączeniu usługi. Bez treści okien, danych użytkownika, historii klawiszy i sieci. Wyłącz usługę tutaj, aby zakończyć test.</string>
+</resources>

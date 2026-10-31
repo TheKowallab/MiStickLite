@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+android {
+    namespace 'pl.misticklite'
+    compileSdk 35
+    buildToolsVersion '34.0.0'
+    defaultConfig {
+        applicationId 'pl.misticklite'
+        minSdk 28
+        targetSdk 28
+        versionCode 3
+        versionName '1.2.0'
+        testInstrumentationRunner 'android.test.InstrumentationTestRunner'
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions { jvmTarget = '1.8' }
+    buildFeatures { buildConfig true }
+    lint {
+        abortOnError true
+        checkReleaseBuilds true
+        // Private API-28 appliance build distributed by ADB, not submitted to Google Play.
+        disable 'ExpiredTargetSdkVersion'
+    }
+    packaging { resources.excludes += ['META-INF/*.kotlin_module', 'META-INF/LICENSE*', 'META-INF/NOTICE*'] }
+    testOptions {
+        unitTests.includeAndroidResources = true
+        unitTests.all {
+            systemProperty 'robolectric.dependency.repo.url', 'https://repo.maven.apache.org/maven2'
+            systemProperty 'maven.repo.local', file("$buildDir/robolectric-cache").absolutePath
+            systemProperty 'user.home', file("$buildDir/test-home").absolutePath
+            systemProperty 'mistick.preview.dir', file("$buildDir/previews").absolutePath
+            doFirst { file("$buildDir/test-home").mkdirs() }
+        }
+    }
+}
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.25'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+}

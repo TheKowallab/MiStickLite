@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Only privileged holders of DUMP (including adb shell on Android 9) may call.
+             This entire receiver and its class are absent from the release variant. -->
+        <receiver
+            android:name=".HomeRedirectDebugReceiver"
+            android:exported="true"
+            android:permission="android.permission.DUMP" />
+    </application>
+</manifest>
