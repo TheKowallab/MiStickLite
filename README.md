@@ -1,10 +1,44 @@
-# MiStick Lite 1.2.0
+# MiStick Lite
 
-Wersja 1.2.0 dodaje eksperymentalne przekierowanie **krótkiego HOME(3)**, wyłącznie po osobnym włączeniu przez ADB w debug. Domyślnie **OFF**, także po aktualizacji z 1.1.0 i po każdej nowej sesji usługi. Tryb nie jest utrwalany. Nie zmieniono wyglądu, aplikacji ani trzech pozycji menu.
+**Minimalistyczny, lekki launcher dla Android TV.**
 
-Najpierw przeczytaj **[dokładną procedurę włączenia i awaryjnego powrotu](HOME-REDIRECT-1.2.md)**. [Pomiar PSS przy zamkniętym pulpicie](MEMORY-REPORT.md).
+MiStick Lite zastępuje rozbudowany pulpit prostym ekranem z zegarem, jednym rzędem aplikacji i menu obsługiwanym pilotem.
 
-Natywny launcher dla Xiaomi Mi TV Stick Full HD MiTV-AESP0, Android TV 9 / API 28, firmware PI.2055. Kotlin + Android Views, `applicationId pl.misticklite`, `minSdk 28`, `targetSdk 28`, `compileSdk 35`. Celowo jest to APK do instalacji przez ADB na wskazanym urządzeniu; target 28 nie jest deklaracją zgodności z aktualnymi zasadami publikacji Google Play.
+Projekt powstał z myślą o urządzeniach z ograniczoną pamięcią RAM, w szczególności Xiaomi Mi TV Stick Full HD.
+
+![Pulpit MiStick Lite](docs/screenshot.png)
+
+## Najważniejsze funkcje
+
+- Jeden poziomy rząd aplikacji, bez rekomendacji i reklam launchera.
+- Duży zegar i minimalistyczny, ciemny interfejs.
+- Pełna nawigacja pilotem Android TV.
+- Zmiana kolejności i ukrywanie aplikacji.
+- Automatyczne wykrywanie nowych aplikacji.
+- Natywny Kotlin i Android Views, bez Compose.
+
+## Pobieranie i instalacja
+
+Wersja projektu: **1.2.0**.
+
+[Wydania APK — GitHub Releases](https://github.com/TheKowallab/MiStickLite/releases)
+
+Pierwsze publiczne wydanie APK jest w przygotowaniu. Do tego czasu aplikację można skompilować z kodu źródłowego.
+
+Po pobraniu APK można zainstalować aplikację przez ADB. Szczegółowe instrukcje znajdują się dalej w dokumentacji.
+
+## Zgodność i bezpieczeństwo
+
+Projekt testowano na:
+- Xiaomi Mi TV Stick Full HD (MiTV-AESP0)
+- Android TV 9
+- Firmware PI.2055
+
+Działanie na innych urządzeniach i wersjach Android TV nie zostało potwierdzone.
+
+Sama instalacja APK nie zastępuje fabrycznego pulpitu. Zmiany dotyczące systemowego ekranu Home są opcjonalne i wymagają przygotowania procedury przywracania.
+
+Kod projektu jest udostępniany na licencji MIT.
 
 ## Ekran i pilot
 
