@@ -89,7 +89,7 @@ Podgląd natywnych Views na modelu API 28 z przykładowymi nazwami usług: [docs
 
 ## ADB: połączenie i instalacja jako osobna aplikacja
 
-Poniższe polecenia są instrukcją do samodzielnego wykonania; podczas przygotowania projektu nie łączono się z Mi Stickiem i nie zmieniano jego ustawień. Włączenie debugowania i autoryzacja ADB na TV wymagają świadomej decyzji właściciela. Używaj zaufanej sieci lokalnej.
+Poniższe polecenia należy wykonać samodzielnie na własnym urządzeniu. MiStick Lite 1.2.0 został fizycznie przetestowany na Xiaomi Mi TV Stick Full HD (MiTV-AESP0), Android TV 9, firmware PI.2055. Działanie na innych urządzeniach nie zostało potwierdzone. Włączenie debugowania i autoryzacja ADB wymagają świadomej decyzji właściciela. Korzystaj wyłącznie z zaufanej sieci lokalnej, a po zakończeniu konfiguracji wyłącz debugowanie, jeśli nie jest już potrzebne.
 
 ```sh
 adb devices -l
