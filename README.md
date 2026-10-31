@@ -1,188 +1,535 @@
 # MiStick Lite
 
-**Minimalistyczny, lekki launcher dla Android TV.**
+**Lekki, minimalistyczny launcher dla Android TV.**
 
-MiStick Lite zastępuje rozbudowany pulpit prostym ekranem z zegarem, jednym rzędem aplikacji i menu obsługiwanym pilotem.
+MiStick Lite to natywny launcher Android TV zaprojektowany z myślą o urządzeniach z ograniczoną pamięcią RAM, szczególnie **Xiaomi Mi TV Stick Full HD**.
 
-Projekt powstał z myślą o urządzeniach z ograniczoną pamięcią RAM, w szczególności Xiaomi Mi TV Stick Full HD.
+Zamiast rozbudowanego ekranu głównego, rekomendacji i reklam otrzymujesz prosty pulpit: duży zegar, jeden poziomy rząd aplikacji i minimalistyczne menu obsługiwane pilotem.
+
+**Aktualna wersja:** 1.2.0  
+**Platforma:** Android TV 9+ (minimalne API 28)  
+**Technologia:** Kotlin + Android Views  
+**Licencja:** MIT
 
 ![Pulpit MiStick Lite](docs/screenshot.png)
 
 ## Najważniejsze funkcje
 
-- Jeden poziomy rząd aplikacji, bez rekomendacji i reklam launchera.
-- Duży zegar i minimalistyczny, ciemny interfejs.
-- Pełna nawigacja pilotem Android TV.
-- Zmiana kolejności i ukrywanie aplikacji.
-- Automatyczne wykrywanie nowych aplikacji.
-- Natywny Kotlin i Android Views, bez Compose.
+- Minimalistyczny interfejs w ciemnych granatowych i kremowych kolorach.
+- Duży zegar `HH:mm` w lewym górnym rogu.
+- Jeden poziomy rząd aplikacji.
+- Brak reklam i rekomendacji w launcherze.
+- Automatyczne wykrywanie zainstalowanych aplikacji.
+- Możliwość zmiany kolejności i ukrywania kafelków.
+- Pełna obsługa pilotem Android TV.
+- Proste menu: **Konto, Ustawienia, Sklep z aplikacjami**.
+- Natywne Android Views, bez Jetpack Compose.
+- Brak rozbudowanych bibliotek UI i bibliotek do ładowania obrazów.
+- Lokalne zapamiętywanie kolejności i ukrytych aplikacji.
 
-## Pobieranie i instalacja
+## Pobieranie APK
 
-Wersja projektu: **1.2.0**.
+**[GitHub Releases — pobierz MiStick Lite](https://github.com/TheKowallab/MiStickLite/releases)**
 
-[Wydania APK — GitHub Releases](https://github.com/TheKowallab/MiStickLite/releases)
+Pierwsze publiczne wydanie APK jest w przygotowaniu. Do czasu opublikowania wydania aplikację można skompilować z kodu źródłowego.
 
-Pierwsze publiczne wydanie APK jest w przygotowaniu. Do tego czasu aplikację można skompilować z kodu źródłowego.
+MiStick Lite można zainstalować przez ADB bez rootowania urządzenia.
 
-Po pobraniu APK można zainstalować aplikację przez ADB. Szczegółowe instrukcje znajdują się dalej w dokumentacji.
+**Uwaga dotycząca aktualizacji:** kompilacje debug są podpisywane lokalnym kluczem debug. Aktualizacja istniejącej instalacji wymaga zgodności podpisu. Przyszłe wydanie podpisane kluczem produkcyjnym może wymagać odinstalowania wcześniejszej wersji debug, co usuwa lokalne ustawienia aplikacji.
 
-## Zgodność i bezpieczeństwo
+## Sprawdzona kompatybilność
 
-Projekt testowano na:
-- Xiaomi Mi TV Stick Full HD (MiTV-AESP0)
-- Android TV 9
-- Firmware PI.2055
+Projekt został fizycznie przetestowany na:
 
-Działanie na innych urządzeniach i wersjach Android TV nie zostało potwierdzone.
+| Parametr | Urządzenie testowe |
+|---|---|
+| Producent | Xiaomi |
+| Model | Mi TV Stick Full HD |
+| Identyfikator | MiTV-AESP0 |
+| System | Android TV 9 |
+| API | 28 |
+| Firmware | PI.2055 |
+| Pamięć RAM | Około 1 GB |
+| Pamięć wewnętrzna | 8 GB |
 
-Sama instalacja APK nie zastępuje fabrycznego pulpitu. Zmiany dotyczące systemowego ekranu Home są opcjonalne i wymagają przygotowania procedury przywracania.
+Na tym urządzeniu potwierdzono uruchamianie launchera, obsługę pilota, przełączanie aplikacji oraz działanie jako ekran Home po ponownym uruchomieniu systemu przy odpowiedniej konfiguracji.
 
-Kod projektu jest udostępniany na licencji MIT.
+**Działanie na innych urządzeniach Android TV nie zostało potwierdzone.** W szczególności nazwy pakietów systemowych i zachowanie przycisku Home mogą różnić się pomiędzy producentami i wersjami firmware.
 
-## Ekran i pilot
+## Wygląd i obsługa pilota
 
-- Pełny ekran, tło `#121A2B`, kremowy `#F3E8CE`, duży zegar `HH:mm` w lewym górnym rogu i trzy kropki po prawej. Zegar korzysta z czasu i strefy urządzenia.
-- Jeden poziomy rząd zaokrąglonych kafelków. Kremowa ramka wskazuje fokus; przewijanie jest natychmiastowe, bez skalowania i animacji.
-- **Lewo/prawo:** poprzednia/następna aplikacja. Na końcach fokus zostaje w rzędzie. **OK:** uruchomienie. **Góra:** trzy kropki. **Dół lub lewo z kropek:** powrót do ostatniego kafelka. **Wstecz:** pierwszy kafelek; launcher pozostaje na pulpicie.
-- **Przytrzymaj OK na kafelku:** „Zmień kolejność” albo „Ukryj aplikację”. Przy zmianie kolejności lewo/prawo przesuwa kafelek; OK zapisuje, Wstecz anuluje. Wyjście z pulpitu lub zmiana listy pakietów anuluje niezapisane przesuwanie.
-- **Przytrzymaj OK na trzech kropkach:** lista ukrytych zainstalowanych aplikacji; wybór przywraca aplikację. Działa również po ukryciu wszystkich kafelków.
-- **Krótko OK na trzech kropkach:** dokładnie **Konto, Ustawienia, Sklep z aplikacjami**. Żadnej pozycji „Wszystkie aplikacje”.
+Interfejs wykorzystuje:
 
-Kolejność pierwszego uruchomienia: Netflix, Prime Video, HBO/Max, YouTube, SkyShowtime, TVP VOD, Pilot WP, Apple TV — wyłącznie zainstalowane, dostępne do uruchomienia. Pozostałe aplikacje są dalej w tym samym rzędzie. Pierwszeństwo rozpoznają znane pakiety i nazwy regionalnych wariantów, a nie dołączone atrapy aplikacji. HBO i Max mogą być osobnymi kafelkami, jeżeli oba są zainstalowane.
+- Tło: `#121A2B`
+- Kolor tekstu i zaznaczenia: `#F3E8CE`
+- Zegar w formacie `HH:mm`
+- Jeden poziomy, przewijany rząd zaokrąglonych kafelków
+- Kremową ramkę wskazującą aktualnie zaznaczony kafelek
 
-Nowe pakiety trafiają na koniec, również gdy należą do ośmiu preferowanych usług. Nie ma limitu liczby aplikacji. Usunięte pakiety znikają; ich pozycja i ukrycie pozostają zapamiętane na wypadek reinstalacji. Dane są lokalne w SharedPreferences; `adb install -r` zachowuje je, odinstalowanie aplikacji je usuwa.
+### Sterowanie
 
-## Wykrywanie i koszty działania
+| Przycisk | Działanie |
+|---|---|
+| Lewo / prawo | Przejście pomiędzy aplikacjami |
+| OK | Uruchomienie zaznaczonej aplikacji |
+| Góra | Przejście do menu trzech kropek |
+| Dół z menu | Powrót do ostatniego kafelka |
+| Wstecz na pulpicie | Powrót do pierwszego kafelka |
+| Przytrzymanie OK na aplikacji | Zmiana kolejności lub ukrycie aplikacji |
+| Przytrzymanie OK na trzech kropkach | Lista ukrytych aplikacji i ich przywracanie |
 
-PackageManager wyszukuje `ACTION_MAIN + LEANBACK_LAUNCHER`, następnie uzupełnia pakiety przez `ACTION_MAIN + LAUNCHER`. Dla jednego pakietu wybiera jeden punkt wejścia, preferując TV. Pomija własny pakiet, wyłączone/nieeksportowane aktywności i wejścia wymagające uprawnień, których launcher nie ma. Fallback LAUNCHER pozwala uruchamiać również ręcznie zainstalowane aplikacje bez wpisu TV; ich własna obsługa pilota zależy od producenta.
+Menu trzech kropek zawiera dokładnie:
 
-Skan działa poza wątkiem UI przy każdym `onResume` i po `PACKAGE_ADDED`, `PACKAGE_REMOVED`, `PACKAGE_REPLACED`, `PACKAGE_CHANGED`. Krótkie serie zdarzeń są scalane. Powrót na pulpit wykrywa zmiany również wtedy, gdy proces był zabity. Nie ma ciągłego odpytywania, odbiornika boot, reklam, sieci ani żądanych uprawnień aplikacji. Jedyna nowa usługa to opcjonalny HomeKeyDiagnosticService, uruchamiany przez system dopiero po ręcznym włączeniu w ustawieniach dostępności. Nie odczytuje okien ani danych innych aplikacji; nie zmienia działania pulpitu.
+1. **Konto**
+2. **Ustawienia**
+3. **Sklep z aplikacjami**
 
-Grafiki pochodzą z bannerów zainstalowanych aplikacji, z fallbackiem do ikony i nazwy. Obrazy są próbkowane, maksymalnie 384×216 px dla banneru i 128×128 px dla ikony, wczytywane w pobliżu widocznego obszaru. Wspólny LRU ma limit 3 MiB; kafelki nie trzymają osobnych bitmap. Liczba małych Views i metadanych rośnie z liczbą aplikacji. Jedyną biblioteką wykonawczą jest Kotlin stdlib; brak AndroidX, Compose i bibliotek obrazków w APK. Robolectric i jego komponenty AndroidX są używane wyłącznie na komputerze podczas testów. Limit cache nie jest pomiarem całego RAM procesu — PSS trzeba zmierzyć na Mi Sticku.
+Nie ma osobnej pozycji „Wszystkie aplikacje”.
 
-## Bezpieczne otwieranie ekranów systemowych
+### Domyślna kolejność aplikacji
 
-- **Konto:** `Settings.ACTION_SYNC_SETTINGS`, następnie znane wejścia kont Android TV i `ACTION_USER_SETTINGS`; jeśli żadne nie jest dostępne, komunikat i ustawienia systemowe. Nie wymaga odczytu kont, nie dodaje i nie usuwa kont automatycznie.
-- **Ustawienia:** `Settings.ACTION_SETTINGS`, `MAIN + LEANBACK_SETTINGS`, a potem dostępne punkty wejścia pakietów ustawień.
-- **Sklep:** Google Play `com.android.vending` przez LEANBACK/LAUNCHER, kategorię APP_MARKET lub URI market ograniczone do tego pakietu. Bez Play: komunikat, ustawienia aplikacji, ostatecznie ustawienia systemowe. Nie otwiera przypadkowego sklepu ani strony WWW.
+Przy pierwszym uruchomieniu launcher preferuje następującą kolejność:
 
-Każda próba sprawdza resolver, dostępność/eksport i obsługuje `ActivityNotFoundException` oraz `SecurityException`. Jeśli wszystko zawiedzie, pokazuje komunikat. Prywatne ekrany firmware mogą pozostać niedostępne — ogólne ustawienia stanowią fallback.
+1. Netflix
+2. Prime Video
+3. HBO / Max
+4. YouTube
+5. SkyShowtime
+6. TVP VOD
+7. Pilot WP
+8. Apple TV
 
-## Budowanie
+Wyświetlane są wyłącznie aplikacje rzeczywiście zainstalowane i dostępne do uruchomienia.
 
-Wymagane: JDK 17, Gradle 8.7 (wrapper w projekcie), SDK platform 35 i Build Tools 34.0.0. AGP 8.6.1, Kotlin 1.9.25. `compileSdk 35` służy kompilacji; aplikacja nie wymaga Androida 15.
+Pozostałe aplikacje znajdują się dalej w tym samym rzędzie. Nowo zainstalowane aplikacje trafiają na koniec listy.
 
-Na komputerze z gotowym SDK/JDK:
+Kolejność i informacje o ukrytych aplikacjach są zapisywane lokalnie w `SharedPreferences`. Aktualizacja przez `adb install -r` zasadniczo zachowuje te dane, natomiast odinstalowanie MiStick Lite je usuwa.
 
-```sh
-export JAVA_HOME='/ścieżka/do/jdk17/Contents/Home'
-export ANDROID_HOME='/ścieżka/do/android-sdk'
-./gradlew --no-daemon assembleDebug testDebugUnitTest lintDebug
+## Instalacja przez ADB
+
+### 1. Przygotowanie
+
+Potrzebujesz:
+
+- Komputera z Android Platform Tools (`adb`).
+- Xiaomi Mi TV Stick lub innego zgodnego urządzenia Android TV.
+- Włączonych opcji programisty i debugowania ADB.
+- Działającego, autoryzowanego połączenia ADB.
+- Pliku APK MiStick Lite.
+
+Korzystaj wyłącznie z zaufanej sieci lokalnej.
+
+Na komputerze sprawdź dostępne urządzenia:
+
+```bash
+adb devices -l
 ```
 
-Można zamiast `ANDROID_HOME` ustawić `sdk.dir=/pełna/ścieżka/do/sdk` w lokalnym, nieprzenoszonym `local.properties`. Wynik: `app/build/outputs/apk/debug/app-debug.apk`. Także wariant debug korzysta z R8 i usuwania nieużywanych zasobów, aby ograniczyć APK. Mapowanie R8 znajduje się w `app/build/outputs/mapping/debug/` po kompilacji. Debug jest podpisany lokalnym kluczem debug; przy aktualizacji trzeba zachować ten sam klucz. Nie jest to wydanie podpisane produkcyjnie.
+Jeżeli urządzenie ma już skonfigurowane debugowanie ADB przez sieć, połącz się:
 
-Na potrzeby tego zadania, po zgodzie użytkownika, narzędzia pobrano do `../../work/toolchain/` względem projektu, bez instalacji systemowej. `scripts/build-local.sh` używa tego lokalnego zestawu i cache. Szczegóły rzeczywistej kompilacji i rozmiar APK znajdują się w `BUILD-REPORT.md`.
-
-Podgląd natywnych Views na modelu API 28 z przykładowymi nazwami usług: [docs/home-sample.png](docs/home-sample.png). Raport: [BUILD-REPORT.md](BUILD-REPORT.md).
-
-## ADB: połączenie i instalacja jako osobna aplikacja
-
-Poniższe polecenia należy wykonać samodzielnie na własnym urządzeniu. MiStick Lite 1.2.0 został fizycznie przetestowany na Xiaomi Mi TV Stick Full HD (MiTV-AESP0), Android TV 9, firmware PI.2055. Działanie na innych urządzeniach nie zostało potwierdzone. Włączenie debugowania i autoryzacja ADB wymagają świadomej decyzji właściciela. Korzystaj wyłącznie z zaufanej sieci lokalnej, a po zakończeniu konfiguracji wyłącz debugowanie, jeśli nie jest już potrzebne.
-
-```sh
-adb devices -l
-# Jeśli urządzenie ma już włączone debugowanie sieciowe:
+```bash
 adb connect ADRES_IP_STICKA:5555
 adb devices -l
-export SERIAL='ADRES_IP_STICKA:5555' # albo dokładny serial USB z adb devices
-adb -s "$SERIAL" shell getprop ro.product.model
-adb -s "$SERIAL" shell getprop ro.build.version.sdk
-adb -s "$SERIAL" shell getprop ro.build.display.id
 ```
 
-Sprawdź model/API/firmware. Najpierw zapisz stan (skrypt tylko odczytuje TV):
+Adres IP zastąp rzeczywistym adresem urządzenia. Port `5555` musi być dostępny i wcześniej skonfigurowany — nie każde urządzenie udostępnia ADB przez sieć domyślnie.
 
-```sh
-sh scripts/adb-snapshot.sh "$SERIAL"
-adb -s "$SERIAL" shell cmd package help
+Dalsze przykłady zakładają jedno połączone urządzenie.
+
+### 2. Sprawdzenie urządzenia
+
+Przed jakimikolwiek zmianami sprawdź model i system:
+
+```bash
+adb shell getprop ro.product.model
+adb shell getprop ro.build.version.sdk
+adb shell getprop ro.build.display.id
 ```
 
-W nowym katalogu `home-snapshot-*` sprawdź `user.txt`, `home-before.txt`, `home-candidates.txt` i `disabled-packages.txt`. `home-before.txt` powinien zawierać **rzeczywisty komponent poprzedniego launchera**, np. `pakiet/pełna.nazwa.Aktywności`. Nie zgaduj nazwy na podstawie określenia „Google TV”: to urządzenie może mieć Android TV Launcher/PatchWall. Jeśli resolverem jest `ResolverActivity`, nie ma jednoznacznego domyślnego HOME — zapisz ten fakt i nie używaj tego komponentu jako launchera do rollbacku.
+Zapisz także stan fabrycznego ekranu Home i wyłączonych pakietów.
 
-```sh
-adb -s "$SERIAL" install -r ../MiStickLite-debug.apk
-adb -s "$SERIAL" shell am start -W -n pl.misticklite/.MainActivity
+Jeśli korzystasz z kodu źródłowego projektu, możesz użyć skryptu diagnostycznego:
+
+```bash
+sh scripts/adb-snapshot.sh ADRES_IP_STICKA:5555
 ```
 
-To uruchamia launcher jako osobną aplikację, dostępną także w fabrycznym menu TV. Samo zainstalowanie i uruchomienie **nie ustawia go jako domyślnego HOME**. Przetestuj DPAD, trzy pozycje menu, powrót z aplikacji, zmianę kolejności, ukrywanie i przywracanie, przed osobnym włączeniem przekierowania debug przez ADB.
+Skrypt służy do zebrania informacji o urządzeniu; sprawdź jego zawartość i wyniki przed dalszymi operacjami.
 
+### 3. Zainstalowanie aplikacji
 
-## Ustawienie MiStick Lite jako ekranu Home
+Przejdź w terminalu do katalogu zawierającego pobrany APK.
 
-Sama instalacja APK nie zastępuje fabrycznego pulpitu. Najpierw uruchom MiStick Lite jako zwykłą aplikację i sprawdź działanie pilota oraz dostęp do ustawień.
+Przykładowo:
 
-### Sprawdzona konfiguracja
+```bash
+adb install -r MiStickLite-1.2.0-debug.apk
+```
 
-MiStick Lite 1.2.0 został przetestowany na:
-- Xiaomi Mi TV Stick Full HD (MiTV-AESP0)
-- Android TV 9
-- Firmware PI.2055
+Jeżeli APK został zbudowany lokalnie w katalogu projektu, użyj:
 
-Na tym urządzeniu MiStick Lite działał jako domyślny ekran Home po wyłączeniu fabrycznego pakietu `com.google.android.tvlauncher`.
+```bash
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
-Podczas testów stwierdzono, że po restarcie system potrafił ponownie włączyć fabryczny launcher. Na testowanym egzemplarzu problem ustąpił po wyłączeniu `com.google.android.tungsten.setupwraith`.
+Nazwa pliku musi odpowiadać rzeczywiście pobranej lub zbudowanej wersji.
 
-**Uwaga:** wyłączanie SetupWraith może wpływać na konfigurację Android TV, w tym obsługę sieci. To rozwiązanie specyficzne dla przetestowanego urządzenia i firmware. Nie należy stosować go automatycznie na innych telewizorach.
+### 4. Pierwsze uruchomienie
 
-Przed zmianami należy zapewnić działające ADB i przygotować procedurę przywracania systemu. Nie odinstalowuj pakietów systemowych.
+Uruchom MiStick Lite:
 
-### Przywracanie fabrycznego launchera
+```bash
+adb shell am start -W -n pl.misticklite/.MainActivity
+```
 
-Jeżeli wcześniej wyłączono poniższe pakiety, można je ponownie włączyć przez ADB:
+Sprawdź działanie zegara, kafelków, pilota, menu trzech kropek oraz uruchamiania aplikacji.
 
-```sh
+**Samo zainstalowanie i uruchomienie MiStick Lite nie powoduje automatycznego zastąpienia fabrycznego launchera.**
+
+## Ustawianie MiStick Lite jako domyślnego Home
+
+**Ta sekcja opisuje zaawansowaną, opcjonalną konfigurację.**
+
+Zmiany pakietów systemowych mogą spowodować utratę dostępu do pulpitu lub innych funkcji Android TV. Nie wykonuj ich bez działającego połączenia ADB i możliwości przywrócenia poprzednich ustawień.
+
+Nie odinstalowuj pakietów systemowych.
+
+### Przetestowana konfiguracja Xiaomi MiTV-AESP0
+
+Na urządzeniu testowym fabryczny launcher występował jako:
+
+```text
+com.google.android.tvlauncher
+```
+
+Przed zmianami upewnij się, że dokładnie ten pakiet odpowiada za fabryczny ekran Home na Twoim urządzeniu.
+
+Po przetestowaniu MiStick Lite jako zwykłej aplikacji na egzemplarzu testowym wykonano:
+
+```bash
+adb shell pm disable-user --user 0 com.google.android.tvlauncher
+```
+
+Po tej zmianie system kierował przycisk Home do MiStick Lite.
+
+**Ważne:** na części urządzeń ta operacja może nie zadziałać, może zostać zablokowana przez system albo pozostawić użytkownika bez działającego pulpitu. Nie traktuj jej jako uniwersalnej instrukcji dla wszystkich telewizorów.
+
+### Problem z przywracaniem fabrycznego launchera po restarcie
+
+Na przetestowanym Xiaomi MiTV-AESP0 z firmware PI.2055 zaobserwowano, że fabryczny launcher potrafił zostać ponownie włączony podczas uruchamiania systemu.
+
+Na tym konkretnym egzemplarzu problem ustąpił po wyłączeniu:
+
+```text
+com.google.android.tungsten.setupwraith
+```
+
+Pakiet ten uczestniczy w konfiguracji systemu.
+
+**Nie zaleca się wyłączania SetupWraith jako standardowego kroku instalacji.** Zmiana może wpłynąć na proces konfiguracji Android TV, Wi-Fi lub inne funkcje systemowe. Na innych urządzeniach skutki mogą być odmienne.
+
+Wyłącznie w ramach zaawansowanej diagnostyki identycznego urządzenia, po przygotowaniu procedury odzyskiwania, na testowanym egzemplarzu zastosowano:
+
+```bash
+adb shell pm disable-user --user 0 com.google.android.tungsten.setupwraith
+```
+
+Po tej zmianie i wyłączeniu fabrycznego launchera MiStick Lite uruchamiał się jako ekran Home również po restarcie.
+
+## Przywracanie oryginalnego Android TV
+
+Jeżeli wcześniej wyłączono fabryczny launcher albo SetupWraith, można spróbować przywrócić je przez ADB:
+
+```bash
 adb shell pm enable --user 0 com.google.android.tvlauncher
 adb shell pm enable --user 0 com.google.android.tungsten.setupwraith
 ```
 
-Następnie uruchom ponownie urządzenie i sprawdź działanie fabrycznego ekranu Home.
+Następnie uruchom urządzenie ponownie:
 
-### Eksperymentalne przekierowanie przycisku Home
+```bash
+adb reboot
+```
 
-Wersja 1.2.0 zawiera również opcjonalny mechanizm diagnostyczny HomeKeyDiagnosticService. Jest on domyślnie wyłączony i nie jest wymagany do działania MiStick Lite jako domyślnego launchera.
+Sprawdź, czy fabryczny ekran Home i funkcje systemowe działają prawidłowo.
 
-Szczegóły:
+Jeżeli dodatkowo wyłączono pakiety rekomendacji lub diagnostyki Xiaomi, można je przywrócić, o ile występują na danym urządzeniu i były wcześniej aktywne:
+
+```bash
+adb shell pm enable --user 0 com.google.android.tvrecommendations
+adb shell pm enable --user 0 com.miui.tv.analytics
+```
+
+Nie uruchamiaj tych poleceń bez potrzeby. Przywracaj tylko pakiety, których stan rzeczywiście zmieniono.
+
+**Uwaga:** jeżeli urządzenie utraci połączenie ADB przez sieć, odzyskanie kontroli może być utrudnione. Przed wyłączeniem jakichkolwiek pakietów systemowych upewnij się, że masz realną możliwość odzyskania dostępu do urządzenia.
+
+## Eksperymentalne przekierowanie przycisku Home
+
+Wersja 1.2.0 zawiera dodatkowy, eksperymentalny mechanizm diagnostyczny:
+
+`HomeKeyDiagnosticService`
+
+Mechanizm jest domyślnie wyłączony.
+
+Pozwala testować przechwytywanie krótkiego naciśnięcia przycisku Home przez usługę dostępności, ale wymaga osobnego włączenia i konfiguracji debugowej.
+
+Nie jest potrzebny, gdy Android TV prawidłowo rozpoznaje MiStick Lite jako domyślny launcher.
+
+W trybie eksperymentalnym nie gwarantuje się zachowania oryginalnej akcji długiego naciśnięcia Home.
+
+Szczegółowa dokumentacja:
+
 [HOME-REDIRECT-1.2.md](HOME-REDIRECT-1.2.md)
 
-## Checklista testu na Mi Sticku (do wykonania przez właściciela)
+## Wydajność i wykorzystanie pamięci RAM
 
-- Zimny start, czytelny zegar i ramka, brak obcięcia na 1920×1080/overscan; sprawdzenie rzeczywistego skalowania Androida.
-- Uruchomienie wszystkich dostępnych usług; brak niezainstalowanych preferowanych aplikacji.
-- Długi rząd (>8 aplikacji), dotarcie do końca i z powrotem pilotem; góra/dół/krawędzie/Wstecz.
-- Zmiana kolejności → OK; druga zmiana → Wstecz. Ukrycie jednej i wszystkich pozycji → przywrócenie z długiego OK na kropkach.
-- Ponowne otwarcie, ubicie procesu (`adb shell am force-stop pl.misticklite`) i jawne uruchomienie; kolejność i ukrycie zachowane.
-- Instalacja/usunięcie własnej testowej aplikacji TV, aktualizacja pakietu, powrót z Play; nowe pakiety na końcu, brak duplikatów. Nie odinstalowuj płatnych aplikacji ani nie zmieniaj usług systemowych dla testu.
-- Każda z trzech pozycji menu; na urządzeniu bez odpowiedniego komponentu komunikat/fallback bez awarii. Nie wyłączaj Play ani ustawień tylko po to, aby testować fallback; taki wariant sprawdzaj na osobnym emulatorze/testowym systemie.
-- Pamięć po starcie i po przewinięciu rzędu: `adb -s "$SERIAL" shell dumpsys meminfo pl.misticklite`; zanotuj TOTAL PSS i ewentualne ponowne uruchamianie aplikacji wideo.
-- Test fizycznego Home z aplikacji streamingowych, długiego/podwójnego Home i wyłączenia według HOME-REDIRECT-1.2.md; bez zmiany domyślnego HOME. PSS przy UI CLOSED według MEMORY-REPORT.md.
+MiStick Lite zaprojektowano z myślą o ograniczeniu obciążenia starszych urządzeń Android TV.
 
-## Testy wersji 1.2.0
+Rozwiązania zastosowane w projekcie:
 
-```sh
-scripts/build-local.sh --offline assembleDebug testDebugUnitTest lintDebug assembleRelease lintRelease
+- Natywny interfejs Android Views.
+- Brak Jetpack Compose.
+- Brak ciągłego odpytywania listy aplikacji.
+- Skanowanie aplikacji poza głównym wątkiem interfejsu.
+- Ładowanie grafik przede wszystkim dla widocznych i sąsiednich kafelków.
+- Ograniczenie pamięci podręcznej obrazów do 3 MiB.
+- Brak sieciowych reklam i rekomendacji w launcherze.
+
+Kafelki korzystają z bannerów lub ikon już zainstalowanych aplikacji. Duże grafiki są skalowane przed wykorzystaniem.
+
+### Pomiar pamięci
+
+Na podłączonym urządzeniu uruchom:
+
+```bash
+adb shell dumpsys meminfo pl.misticklite
+```
+
+Można również sprawdzić ogólny stan pamięci systemu:
+
+```bash
+adb shell cat /proc/meminfo
+```
+
+Oraz listę procesów:
+
+```bash
+adb shell top -n 1 -m 15
+```
+
+Na testowanym Xiaomi zaobserwowano zużycie PSS launchera rzędu około **16 MiB** w określonych warunkach pomiarowych.
+
+Nie jest to gwarantowane zużycie pamięci na każdym urządzeniu ani deklaracja stałej oszczędności RAM. Wynik zależy między innymi od uruchomionych procesów, liczby aplikacji i aktualnego stanu systemu.
+
+Dokumentacja pomiarów:
+
+[MEMORY-REPORT.md](MEMORY-REPORT.md)
+
+## Opcjonalna optymalizacja Android TV
+
+Na niektórych urządzeniach można poprawić subiektywną płynność interfejsu przez ograniczenie czasu animacji systemowych.
+
+Przykład ustawienia skali animacji na `0.5`:
+
+```bash
+adb shell settings put global window_animation_scale 0.5
+adb shell settings put global transition_animation_scale 0.5
+adb shell settings put global animator_duration_scale 0.5
+```
+
+Przywrócenie domyślnych wartości `1.0`:
+
+```bash
+adb shell settings put global window_animation_scale 1.0
+adb shell settings put global transition_animation_scale 1.0
+adb shell settings put global animator_duration_scale 1.0
+```
+
+Ta zmiana nie zwiększa fizycznej ilości RAM ani mocy procesora. Zmienia jedynie czas trwania animacji.
+
+Nie zaleca się masowego wyłączania usług systemowych bez uprzedniego sprawdzenia ich funkcji.
+
+Po zakończeniu konfiguracji warto wyłączyć debugowanie ADB, jeżeli nie jest już potrzebne.
+
+## Budowanie ze źródeł
+
+Projekt można zbudować lokalnie na komputerze.
+
+### Wymagania
+
+- JDK 17
+- Android SDK Platform 35
+- Android SDK Build Tools 34.0.0
+- Gradle 8.7 — wrapper dołączony do projektu
+- Android Gradle Plugin 8.6.1
+- Kotlin 1.9.25
+
+Parametry aplikacji:
+
+| Parametr | Wartość |
+|---|---|
+| applicationId | `pl.misticklite` |
+| minSdk | 28 |
+| targetSdk | 28 |
+| compileSdk | 35 |
+
+`compileSdk 35` oznacza wersję Android SDK wykorzystaną do kompilacji, a nie minimalną wymaganą wersję Androida.
+
+`targetSdk 28` nie oznacza zgodności z aktualnymi wymaganiami publikacji nowych aplikacji w Google Play. Projekt jest obecnie przeznaczony do dystrybucji poza sklepem i instalacji przez ADB.
+
+### Kompilacja debug APK
+
+Skonfiguruj JDK 17 i Android SDK.
+
+W głównym katalogu projektu uruchom:
+
+```bash
+sh ./gradlew --no-daemon assembleDebug
+```
+
+Wynikowy APK:
+
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+Jeśli Gradle nie wykrywa SDK, skonfiguruj zmienną `ANDROID_HOME` lub utwórz lokalny plik `local.properties` z wpisem:
+
+```properties
+sdk.dir=/pelna/sciezka/do/android-sdk
+```
+
+Nie publikuj `local.properties` w repozytorium, ponieważ zawiera ścieżkę specyficzną dla danego komputera.
+
+### Testy i lint
+
+```bash
+sh ./gradlew --no-daemon testDebugUnitTest lintDebug
+```
+
+W raportowanej weryfikacji wersji 1.2.0 wykonano:
+
+- 50 testów Android/JVM.
+- 11 testów narzędzia diagnostycznego pamięci.
+
+Łącznie: **61 testów**.
+
+Dodatkowe testy narzędziowe:
+
+```bash
 python3 -m unittest discover -s scripts -p test_service_memory.py
 ```
 
-50 testów Androida/JVM (15 kontrolera gestów, 14 integracyjnych debug i 21 dotychczasowych) oraz 11 testów narzędzia pamięci. Pełny wynik i kontrola niezmienionego renderu: [BUILD-REPORT.md](BUILD-REPORT.md). Brak dodanych zależności wykonawczych.
+Wyniki kompilacji i testów opisano w:
 
-## Dokumentacja źródłowa
+[BUILD-REPORT.md](BUILD-REPORT.md)
 
-- [Android TV: deklaracja aktywności TV i bannera](https://developer.android.com/training/tv/get-started/create)
-- [Settings: intenty systemowe i możliwy brak aktywności](https://developer.android.com/reference/android/provider/Settings)
-- [KeyEvent: HOME i ALL_APPS](https://developer.android.com/reference/android/view/KeyEvent)
-- [AOSP Android 9 TvSettings — manifest](https://android.googlesource.com/platform/packages/apps/TvSettings/+/android-9.0.0_r1/Settings/AndroidManifest.xml)
-- [AGP 8.6: Gradle 8.7, JDK 17 i Build Tools 34](https://developer.android.com/build/releases/agp-8-6-0-release-notes)
+### Podpisywanie wydań
 
-Zachowanie konkretnego firmware PI.2055 wymaga fizycznego testu. Źródła AOSP służą do doboru fallbacków; nie potwierdzają, że producent eksportuje te same ekrany.
+APK debug jest podpisywany kluczem debug.
+
+Wydania przeznaczone do publicznej dystrybucji powinny być podpisywane osobnym, bezpiecznie przechowywanym kluczem wydawcy.
+
+**Nigdy nie publikuj prywatnego klucza podpisu, hasła do keystore ani plików z danymi dostępowymi.**
+
+## Architektura aplikacji
+
+MiStick Lite wykorzystuje natywny interfejs Android Views oraz mechanizmy systemowe Androida.
+
+### Wykrywanie aplikacji
+
+Launcher wyszukuje aktywności obsługujące:
+
+- `ACTION_MAIN + LEANBACK_LAUNCHER`
+- `ACTION_MAIN + LAUNCHER`
+
+Pierwszeństwo mają aktywności przeznaczone dla Android TV.
+
+Aplikacja pomija własny pakiet, niedostępne aktywności i punkty wejścia, których nie można prawidłowo uruchomić.
+
+Lista aplikacji jest aktualizowana między innymi przy powrocie na pulpit oraz po instalacji, aktualizacji lub usunięciu pakietów.
+
+Nie jest wymagane ciągłe skanowanie systemu.
+
+### Grafiki aplikacji
+
+Launcher wykorzystuje grafiki udostępniane przez zainstalowane aplikacje.
+
+Rozmiary próbkowanych obrazów ograniczono do:
+
+- Banner: maksymalnie 384 × 216 px.
+- Ikona: maksymalnie 128 × 128 px.
+
+Pamięć podręczna LRU grafik ma limit 3 MiB. Limit ten nie oznacza całkowitego zużycia RAM przez proces aplikacji.
+
+### Przechowywanie danych
+
+Kolejność kafelków i ukryte aplikacje są zapisywane lokalnie przez `SharedPreferences`.
+
+Launcher nie korzysta z chmury do synchronizacji tych ustawień.
+
+## Testowanie i diagnostyka
+
+Przed uznaniem urządzenia za zgodne zaleca się sprawdzenie:
+
+- Prawidłowego wyświetlania pulpitu i zegara.
+- Obsługi wszystkich podstawowych przycisków pilota.
+- Przejścia przez długi rząd aplikacji.
+- Uruchamiania dostępnych aplikacji streamingowych.
+- Menu Konto, Ustawienia i Sklep z aplikacjami.
+- Zmiany kolejności kafelków.
+- Ukrywania i przywracania aplikacji.
+- Wykrywania nowych i usuwanych pakietów.
+- Zachowania ustawień po ponownym uruchomieniu aplikacji.
+- Działania przycisku Home.
+- Zachowania systemu po restarcie urządzenia.
+- Możliwości bezpiecznego przywrócenia fabrycznego launchera.
+- Wykorzystania pamięci RAM i stabilności aplikacji.
+
+Testowanie domyślnego ekranu Home i eksperymentalnej usługi dostępności to dwie odrębne procedury.
+
+Nie wyłączaj pakietów systemowych tylko po to, aby przetestować zachowanie nieobsługiwanych ekranów.
+
+## Dokumentacja projektu
+
+- [Raport kompilacji i testów](BUILD-REPORT.md)
+- [Raport dotyczący pamięci](MEMORY-REPORT.md)
+- [Eksperymentalna obsługa przycisku Home](HOME-REDIRECT-1.2.md)
+- [Strona projektu](docs/index.html)
+- [Kod aplikacji](app/src/main/)
+- [Skrypty pomocnicze](scripts/)
+
+## Bezpieczeństwo
+
+MiStick Lite jest niezależnym projektem open source.
+
+Autor nie gwarantuje poprawnego działania na wszystkich urządzeniach Android TV.
+
+Przed wprowadzeniem zmian systemowych:
+
+- Sprawdź dokładny model i wersję firmware.
+- Zapisz stan fabrycznego launchera.
+- Upewnij się, że ADB działa.
+- Przygotuj procedurę przywracania.
+- Nie odinstalowuj pakietów systemowych.
+- Nie wyłączaj nieznanych komponentów Androida.
+- Wykonuj zmiany na własną odpowiedzialność.
+
+Wyłączenie fabrycznego launchera lub SetupWraith może powodować problemy z urządzeniem. Czynności przetestowane na Xiaomi MiTV-AESP0 nie powinny być bezpośrednio przenoszone na inne modele.
+
+## Licencja
+
+Kod źródłowy MiStick Lite jest udostępniany na warunkach licencji **MIT**.
+
+Szczegóły znajdują się w pliku [LICENSE](LICENSE).
+
+Projekt nie jest powiązany z Xiaomi, Google, Netflix, Amazon, HBO, SkyShowtime, Apple ani innymi producentami urządzeń i usług.
+
+Nazwy i znaki towarowe należą do ich odpowiednich właścicieli. Licencja MIT na kod projektu nie obejmuje cudzych znaków towarowych.
+
+---
+
+**MiStick Lite 1.2.0**  
+Minimalistyczny Android TV Launcher  
+Projekt: [TheKowallab](https://github.com/TheKowallab)
